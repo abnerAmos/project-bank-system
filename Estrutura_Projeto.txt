@@ -1,0 +1,18 @@
+| ESTRUTURA DE PROJETO |
+------------------------
+
+Packages
+	- domains
+		- POJOS (modelos, tabelas)
+	- repositories
+		- Concentrar toda lógica referente aos acessos ao Banco de Dados
+	- services
+		- Implementação de todas as regras de negócios
+	- enums
+		- Todos os ENUMS
+	- utils
+		- Metodos Utiliários
+	- config
+		- Configurações do Sistema:
+			- Carregar os parâmentros da tabela
+			- Classe Java para o Metodo MAIN (Inicializar o Sistema)
