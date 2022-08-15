@@ -93,7 +93,6 @@ CadastroConta:
 
 
 Deposito:
-        - AutenticarCliente #
         - VerificarContaAtiva #
         - Somar saldo conta
         - AtualizarSaldo*
