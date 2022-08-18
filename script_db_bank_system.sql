@@ -1,8 +1,25 @@
-DROP DATABASE IF EXISTS DB_BANK_SYSTEM;
+DROP DATABASE DB_BANK_SYSTEM;
 
 CREATE DATABASE DB_BANK_SYSTEM;
 
 USE DB_BANK_SYSTEM;
+
+--
+
+DROP TABLE address
+SELECT * FROM address;
+
+CREATE TABLE address (
+id				INT				NOT NULL	AUTO_INCREMENT	,
+city			VARCHAR (30)	NOT NULL					,
+state			VARCHAR	(2)		NOT NULL					,
+address 		VARCHAR (30)	NOT NULL					,
+district		VARCHAR	(30)	NOT NULL					,
+house_number	VARCHAR	(5)		NOT NULL					,
+cep				INT		(8)		NOT NULL					,
+address_2		VARCHAR	(30)								,
+PRIMARY KEY	(id)											
+);
 
 --
 
@@ -41,33 +58,13 @@ FOREIGN KEY (client_id) REFERENCES client (id)
 
 --
 
-DROP TABLE address
-SELECT * FROM address;
-
-CREATE TABLE address (
-id				INT				NOT NULL	AUTO_INCREMENT	,
-city			VARCHAR (30)	NOT NULL					,
-state			VARCHAR	(2)		NOT NULL					,
-address 		VARCHAR (30)	NOT NULL					,
-district		VARCHAR	(30)	NOT NULL					,
-house_number	VARCHAR	(5)		NOT NULL					,
-cep				INT		(8)		NOT NULL					,
-address_2		VARCHAR	(30)								,
-PRIMARY KEY	(id)											
-);
-
-INSERT INTO address (city, state, address, district, house_number, cep, address_2)
-VALUES ('Sao Paulo', 'SP', 'Avenida Imirim', 'Imirim', 2383, 02465300, 'Loja')
-
---
-
 CREATE TABLE transactions (
 id						INT									NOT NULL	AUTO_INCREMENT	,
 value					DECIMAL						(13, 2)	NOT NULL					,
-operation				ENUM ('ENTRADA', 'SAIDA')			NOT NULL					,	-- saida ou entrada
+operation				ENUM ('ENTRADA', 'SAIDA', 'ACESSO')	NOT NULL					,	-- saida, entrada ou acesso
 operation_dt			DATETIME														,
 account_id				INT							(10)	NOT NULL					,	-- pagante
-transaction_account_id	INT							(10)	NOT NULL					,	-- recebedor
+transfer_account_id		INT							(10)	NOT NULL					,	-- recebedor
 transaction_tp			VARCHAR 					(10)	NOT NULL					,	-- saque, deposito, transferencia
 PRIMARY KEY (id)																		,
 FOREIGN KEY (account_id) REFERENCES bank_account (id)
@@ -87,9 +84,6 @@ PRIMARY KEY (client_id, account_id)						,
 FOREIGN KEY (client_id) REFERENCES client (id)			,
 FOREIGN KEY (account_id) REFERENCES bank_account (id)	
 );
-
-UPDATE access SET password_acess = '654321'
-WHERE account_id = 3;
 
 ALTER TABLE access CHANGE COLUMN account_id account BIGINT NOT NULL;
 
@@ -124,6 +118,25 @@ SELECT name FROM client;
 
 -------------------------------------------------
 
+-- Inserts Tabela address
+
+INSERT INTO address (city, state, address, district, house_number, cep, address_2)
+VALUES ('Sao Paulo', 'SP', 'Avenida Imirim', 'Imirim', 2383, 02465300, 'Loja')
+
+INSERT INTO address (city, state, address, district, house_number, cep, address_2)
+VALUES ('Sao Paulo', 'SP', 'Rua Abura', 'Imirim', '641 A', 02542110, 'Casa 2')
+
+INSERT INTO address (city, state, address, district, house_number, cep, address_2)
+VALUES ('Sao Paulo', 'SP', 'Rua Mere Marie', 'Tucuruvi', '472', 09929129, 'Apto 8')
+
+INSERT INTO address (city, state, address, district, house_number, cep, address_2)
+VALUES ('Sao Paulo', 'SP', 'Rua Algum Lugar', 'Aquele Bairro', '100', 05939149, 'Fundos')
+
+INSERT INTO address (city, state, address, district, house_number, cep, address_2)
+VALUES ('Sao Paulo', 'SP', 'Rua Outro Lugar', 'Outro Bairro', '200', 01234567, 'Blc 2 - Apto 27')
+
+SELECT * FROM address;
+
 -- Inserts Tabela client
 
 INSERT INTO client (name, birthdate, phone, email, person_tp, document_tp, document, address_id)
@@ -141,70 +154,176 @@ VALUES ('Nadine Roldao', '2001-12-25', 11987651234, 'nadine.roldao@yahoo.com.br'
 INSERT INTO client (name, birthdate, phone, email, document, address_id)
 VALUES ('Ricardo Silva', '2001-07-02', 11981742639, 'ricardoslv@ig.br', 97531975323, 5)
 
+SELECT * FROM client;
+
 -- Inserts Tabela bank_account
+
 INSERT INTO bank_account (account_number, client_id, balance, registration_dt)
-VALUES (0101, 4, 20000, '2019-02-01')
+VALUES (101, 2, 25.500, '2019-02-01 13:15:12')
 
 INSERT INTO bank_account (account_number, client_id, registration_dt)
-VALUES (0202, 6, '2022-08-03')
+VALUES (202, 3, '2022-05-25 10:51:21')
 
 INSERT INTO bank_account (account_number, client_id, balance, registration_dt, account_tp)
-VALUES (0202, 7, 100000, '2022-08-03', 'INVESTIMENTO' )
+VALUES (303, 4, 165.100, '2021-07-03 11:24:45', 'INVESTIMENTO' )
 
 INSERT INTO bank_account (account_number, client_id, balance, registration_dt, account_tp)
-VALUES (0202, 9, 100, '2022-08-10', 'POUPANCA' )
+VALUES (404, 5, 101, '2020-08-10 12:46:17', 'POUPANCA' )
 
 INSERT INTO bank_account (account_number, client_id, balance, registration_dt)
-VALUES (0202, 11, 3500, '2015-05-15')
-
-UPDATE bank_account SET registration_dt = '2015-05-15 13:15:12' WHERE client_id = 9;
-UPDATE bank_account SET balance = 3.500 WHERE client_id = 11;
-UPDATE bank_account SET account_number = 0303 WHERE client_id = 7;
-UPDATE bank_account SET account_number = 0404 WHERE client_id = 9;
-UPDATE bank_account SET account_number = 0505 WHERE client_id = 11;
+VALUES (505, 6, 3.500, '2015-05-15 14:34:26')
 
 SELECT * FROM bank_account;
 
--- Inserts Tabela address
-INSERT INTO address (city, state, address, district, house_number, cep, address_2)
-VALUES ('Sao Paulo', 'SP', 'Avenida Imirim', 'Imirim', 2383, 02465300, 'Loja')
-
-INSERT INTO address (city, state, address, district, house_number, cep, address_2)
-VALUES ('Sao Paulo', 'SP', 'Rua Abura', 'Imirim', '641 A', 02542110, 'Casa 2')
-
-INSERT INTO address (city, state, address, district, house_number, cep, address_2)
-VALUES ('Sao Paulo', 'SP', 'Rua Mere Marie', 'Tucuruvi', '472', 09929129, 'Apto 8')
-
-INSERT INTO address (city, state, address, district, house_number, cep, address_2)
-VALUES ('Sao Paulo', 'SP', 'Rua Algum Lugar', 'Aquele Bairro', '100', 05939149, 'Fundos')
-
-INSERT INTO address (city, state, address, district, house_number, cep, address_2)
-VALUES ('Sao Paulo', 'SP', 'Rua Outro Lugar', 'Outro Bairro', '200', 01234567, 'Blc 2 - Apto 27')
-
 -- Inserts Tabela access
-INSERT INTO access (client_id, account_id, password_acess)
-VALUES (4, 1, '547341')
 
 INSERT INTO access (client_id, account_id, password_acess)
-VALUES (6, 2, '173622')
+VALUES (2, 1, '547341')
 
 INSERT INTO access (client_id, account_id, password_acess)
-VALUES (7, 3, '472808')
+VALUES (3, 2, '173622')
 
 INSERT INTO access (client_id, account_id, password_acess)
-VALUES (9, 4, '157123')
+VALUES (4, 3, '472808')
 
 INSERT INTO access (client_id, account_id, password_acess)
-VALUES (11, 5, '247021')
+VALUES (5, 4, '157123')
 
-SELECT * FROM bank_account, access;
+INSERT INTO access (client_id, account_id, password_acess)
+VALUES (6, 5, '247021')
+
+SELECT * FROM access;
 
 -- Inserts Tabela transactions
+
 INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
-VALUES (100.00, 'ENTRADA', '2022-08-15 12:01:34', 1, 'DEPOSITO')
+VALUES (1.99, 'ENTRADA', '2022-08-15 12:01:34', 1, 'DEPOSITO')
 
-ALTER TABLE transactions CHANGE COLUMN transaction_account_id transfer_account_id INT (10) NOT NULL;
-SELECT * FROM transactions;
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (135.40, 'SAIDA', '2022-08-15 12:01:34', 1, 'SAQUE')
 
-SELECT house_number FROM address ad  INNER JOIN client cl ON (ad.id = cl.address_id)
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp, transfer_account_id)
+VALUES (945.49, 'SAIDA', '2022-08-15 12:01:34', 1, 'TRANSFERENCIA', 2)
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (0, 'ACESSO', '2022-08-15 12:01:34', 1, 'TENTATIVA_ACESSO')
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (151.15, 'ENTRADA', '2022-08-15 12:01:34', 2, 'DEPOSITO')
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (335.57, 'SAIDA', '2022-08-15 12:01:34', 2, 'SAQUE')
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp, transfer_account_id)
+VALUES (99.99, 'SAIDA', '2022-08-15 12:01:34', 2, 'TRANSFERENCIA', 3)
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (0, 'ACESSO', '2022-08-15 12:01:34', 2, 'TENTATIVA_ACESSO')
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (175.35, 'ENTRADA', '2022-08-15 12:01:34', 3, 'DEPOSITO')
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (35.20, 'SAIDA', '2022-08-15 12:01:34', 3, 'SAQUE')
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp, transfer_account_id)
+VALUES (5.66, 'SAIDA', '2022-08-15 12:01:34', 3, 'TRANSFERENCIA', 4)
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (0, 'ACESSO', '2022-08-15 12:01:34', 3, 'TENTATIVA_ACESSO')
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (10.00, 'ENTRADA', '2022-08-15 12:01:34', 4, 'DEPOSITO')
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (55.90, 'SAIDA', '2022-08-15 12:01:34', 4, 'SAQUE')
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp, transfer_account_id)
+VALUES (235.99, 'SAIDA', '2022-08-15 12:01:34', 4, 'TRANSFERENCIA', 5)
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (0, 'ACESSO', '2022-08-15 12:01:34', 4, 'TENTATIVA_ACESSO')
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (534.75, 'ENTRADA', '2022-08-15 12:01:34', 5, 'DEPOSITO')
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (1000.50, 'SAIDA', '2022-08-15 12:01:34', 5, 'SAQUE')
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp, transfer_account_id)
+VALUES (150.25, 'SAIDA', '2022-08-15 12:01:34', 5, 'TRANSFERENCIA', 1)
+
+INSERT INTO transactions (value, operation, operation_dt, account_id, transaction_tp)
+VALUES (0, 'ACESSO', '2022-08-15 12:01:34', 5, 'TENTATIVA_ACESSO')
+
+SELECT * FROM bank_account ba ;
+
+-- ---------------------------------------------
+
+ALTER TABLE transactions CHANGE COLUMN transfer_account_id transfer_account_id INT (10);
+ALTER TABLE transactions CHANGE COLUMN operation operation ENUM ('ENTRADA', 'SAIDA', 'ACESSO') NOT NULL;
+ALTER TABLE transactions CHANGE COLUMN transaction_tp transaction_tp VARCHAR (30) NOT NULL;
+
+SELECT * FROM client, address, access, bank_account, transactions;
+
+-- ----------------------------------------------
+
+-- OPERACOES QUERYS:
+
+-- - PESQUISA EM JUNCAO DE TABELAS:
+
+SELECT house_number AS numero_casa, state AS estado, agency, name FROM address ad INNER JOIN client cl ON (ad.id = cl.address_id)
+INNER JOIN bank_account ba ON (ba.client_id = cl.id)
 WHERE ad.district = :estado AND cl.name = :nome
+
+-- - <> DIFERENTE:
+
+SELECT * FROM bank_account ba INNER JOIN transactions tr ON (tr.account_id = ba.id)
+WHERE	ba.account_number = :numero_conta
+AND		ba.agency = :agencia
+AND		tr.operation <> 'ACESSO';
+
+-- - BETWEEN (pesquisa por range de data):
+
+SELECT * FROM bank_account ba INNER JOIN transactions tr ON (tr.account_id = ba.id)
+WHERE	ba.account_number = :numero_conta
+AND		ba.agency = :agencia
+AND		tr.operation <> 'ACESSO'
+AND		tr.operation_dt  BETWEEN '2020-01-01' AND '2022-12-30';
+
+-- - IN (pesquisa por categoria informada):
+-- - ORDER BY (ordenacao por ascendencia e descendencia ASC / DESC)
+
+SELECT * FROM bank_account ba INNER JOIN transactions tr ON (tr.account_id = ba.id)
+WHERE	tr.transaction_tp IN ('SAQUE', 'DEPOSITO')
+ORDER BY tr.transaction_tp ASC;
+
+-- - NOT IN (pesquisa tudo, menos a categoria informada):
+
+SELECT * FROM bank_account ba INNER JOIN transactions tr ON (tr.account_id = ba.id)
+WHERE	tr.transaction_tp NOT IN ('SAQUE', 'DEPOSITO');
+
+-- - COUNT (pesquisa tudo, menos a categoria informada):
+
+SELECT COUNT(*) FROM transactions;
+
+-- - LIMIT (limita a quantidade de resultados obtidos):
+-- - OFFSET (pula quantidade de linhas especificadas):
+
+SELECT * FROM bank_account ba INNER JOIN transactions tr ON (tr.account_id = ba.id)
+LIMIT 4 OFFSET 3;
+
+-- - LIKE (pesquisa criterios dentro do texto informado):
+-- % na frente pesquisa textos com criterios especificados na frente
+-- % atrás pesquisa textos com criterios especificados atras
+-- % frente e atrás, pesquisa textos com criterios especificados entre a porcentagem
+
+SELECT * FROM client cl WHERE cl.email LIKE '%.com';
+SELECT * FROM client cl WHERE cl.email LIKE 'r%';
+SELECT * FROM client cl WHERE cl.email LIKE '%na%';
+
+-- - MAIOR > e MENOR < (pesquisa valores maior ou menor que o especificado)
+-- >= ou <= tambem é valido
+
+SELECT * FROM bank_account ba WHERE ba.balance <100;
+SELECT * FROM bank_account ba WHERE ba.balance >100;
