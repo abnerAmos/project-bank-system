@@ -67,7 +67,7 @@ operation				ENUM ('ENTRADA', 'SAIDA', 'ACESSO')	NOT NULL					,	-- saida, entrad
 operation_dt			DATETIME														,
 account_id				INT							(10)	NOT NULL					,	-- pagante
 transfer_account_id		INT							(10)	NOT NULL					,	-- recebedor
-transaction_tp			VARCHAR 					(10)	NOT NULL					,	-- saque, deposito, transferencia
+transaction_tp			VARCHAR 					(30)	NOT NULL					,	-- saque, deposito, transferencia
 PRIMARY KEY (id)																		,
 FOREIGN KEY (account_id) REFERENCES bank_account (id)
 );
