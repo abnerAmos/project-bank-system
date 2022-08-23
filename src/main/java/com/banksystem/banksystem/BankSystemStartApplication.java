@@ -1,5 +1,8 @@
 package com.banksystem.banksystem;
 
+import com.banksystem.banksystem.services.ServicoEndereco;
+import com.banksystem.banksystem.services.implementacoes.ImplEndereco;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -22,24 +25,46 @@ public class BankSystemStartApplication {
 
 		switch (opcao) {
 			case 1:
-				System.out.println("Criando Conta Bancária - EM CONSTRUÇÃO");
+				ServicoEndereco servicoend = new ImplEndereco();
+				System.out.println("###################################");
+				System.out.println("***** CRIANDO CONTA BANCÁRIA: *****");
+				System.out.println("###################################\n");
+				System.out.println("Informe o seu Endereço Completo:");
+				System.out.println("EXEMPLO: Rua Fulano de Tal, 1234, Bairro, Cidade, SP, 02552012, Torre B Apto 01");
+				String endereco = new Scanner(System.in).nextLine();
+				boolean validar = servicoend.ValidarEndereco(endereco);
+
+				if (!validar) {
+					System.out.println("Endereço Inválido");
+					return;
+				}
+
+				break;
 			case 2:
 				System.out.println("Depositando - EM CONSTRUÇÃO");
+				break;
 			case 3:
 				System.out.println("Sacando - EM CONSTRUÇÃO");
+				break;
 			case 4:
 				System.out.println("Ativando Conta - EM CONSTRUÇÃO");
+				break;
 			case 5:
 				System.out.println("Desativando Conta - EM CONSTRUÇÃO");
+				break;
 			case 6:
 				System.out.println("Emitindo Extrato Bancário - EM CONSTRUÇÃO");
+				break;
 			case 7:
 				System.out.println("Transferindo - EM CONSTRUÇÃO");
+				break;
 			case 8:
 				System.out.println("Consultando Saldo - EM CONSTRUÇÃO");
+				break;
 			case 9:
 				System.out.println("Encerrando Aplicação\n");
 				System.out.println("****** OBRIGADO POR ACESSAR NOSSO SISTEMA ;) ******");
+				break;
 		}
 	}
 
