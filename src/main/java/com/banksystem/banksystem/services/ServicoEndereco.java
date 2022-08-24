@@ -1,9 +1,12 @@
 package com.banksystem.banksystem.services;
 
+import com.banksystem.banksystem.domains.Endereco;
+import java.util.Optional;
+
 public interface ServicoEndereco {
 
-    void CriarEndereco(String endereco);
+    void criarEndereco(String endereco);
 
-    Boolean ValidarEndereco(String endereco);
+    Optional<Endereco> construtorEndereco(String endereco);
 
 }

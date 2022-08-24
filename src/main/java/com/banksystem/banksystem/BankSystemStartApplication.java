@@ -1,9 +1,11 @@
 package com.banksystem.banksystem;
 
+import com.banksystem.banksystem.domains.Endereco;
 import com.banksystem.banksystem.services.ServicoEndereco;
 import com.banksystem.banksystem.services.implementacoes.ImplEndereco;
 
 import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class BankSystemStartApplication {
@@ -32,9 +34,9 @@ public class BankSystemStartApplication {
 				System.out.println("Informe o seu Endereço Completo:");
 				System.out.println("EXEMPLO: Rua Fulano de Tal, 1234, Bairro, Cidade, SP, 02552012, Torre B Apto 01");
 				String endereco = new Scanner(System.in).nextLine();
-				boolean validar = servicoend.ValidarEndereco(endereco);
+				Optional<Endereco> validar = servicoend.construtorEndereco(endereco);
 
-				if (!validar) {
+				if (validar.isEmpty()) {
 					System.out.println("Endereço Inválido");
 					return;
 				}
