@@ -10,7 +10,7 @@ public class ImplEndereco implements ServicoEndereco {
 
 
     @Override
-    public void criarEndereco(String endereco) {
+    public void criarEndereco(Endereco endereco) {
 
     }
 

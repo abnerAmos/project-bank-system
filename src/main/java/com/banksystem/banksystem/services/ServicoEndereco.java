@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface ServicoEndereco {
 
-    void criarEndereco(String endereco);
+    void criarEndereco(Endereco endereco);
 
     Optional<Endereco> construtorEndereco(String endereco);
 

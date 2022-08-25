@@ -33,13 +33,16 @@ public class BankSystemStartApplication {
 				System.out.println("###################################\n");
 				System.out.println("Informe o seu Endereço Completo:");
 				System.out.println("EXEMPLO: Rua Fulano de Tal, 1234, Bairro, Cidade, SP, 02552012, Torre B Apto 01");
-				String endereco = new Scanner(System.in).nextLine();
-				Optional<Endereco> validar = servicoend.construtorEndereco(endereco);
+				String enderecoInput = new Scanner(System.in).nextLine();
+				Optional<Endereco> enderecoOpt = servicoend.construtorEndereco(enderecoInput);
 
-				if (validar.isEmpty()) {
+				if (enderecoOpt.isEmpty()) {
 					System.out.println("Endereço Inválido");
 					return;
 				}
+
+				Endereco endereco = enderecoOpt.get();
+				servicoend.criarEndereco(endereco);
 
 				break;
 			case 2:
