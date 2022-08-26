@@ -11,14 +11,14 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Endereco implements Serializable {
+public class Endereco implements Serializable {     // forma em que o end. deve ser construido
 
-    private int id;
+    private Integer id;
     private String cidade;
     private String estado;
     private String rua;
     private String bairro;
     private String numeroCasa;
-    private int cep;
+    private Integer cep;
     private String complemento;
 }

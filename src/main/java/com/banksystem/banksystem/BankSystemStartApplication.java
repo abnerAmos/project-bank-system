@@ -1,6 +1,7 @@
 package com.banksystem.banksystem;
 
 import com.banksystem.banksystem.domains.Endereco;
+import com.banksystem.banksystem.repositories.impl.EnderecoRepositorioImpl;
 import com.banksystem.banksystem.services.ServicoEndereco;
 import com.banksystem.banksystem.services.implementacoes.ImplEndereco;
 
@@ -27,22 +28,22 @@ public class BankSystemStartApplication {
 
 		switch (opcao) {
 			case 1:
-				ServicoEndereco servicoend = new ImplEndereco();
+				ServicoEndereco servicoend = new ImplEndereco(new EnderecoRepositorioImpl());			// Chamando a classe onde será construido o endereço
 				System.out.println("###################################");
 				System.out.println("***** CRIANDO CONTA BANCÁRIA: *****");
 				System.out.println("###################################\n");
 				System.out.println("Informe o seu Endereço Completo:");
 				System.out.println("EXEMPLO: Rua Fulano de Tal, 1234, Bairro, Cidade, SP, 02552012, Torre B Apto 01");
-				String enderecoInput = new Scanner(System.in).nextLine();
-				Optional<Endereco> enderecoOpt = servicoend.construtorEndereco(enderecoInput);
+				String enderecoInput = new Scanner(System.in).nextLine();	// Capturando o endereço do usuário
+				Optional<Endereco> enderecoOpt = servicoend.construtorEndereco(enderecoInput);		// Enviando os dados de end. p/ classe Impl., tratando e validando infos.
 
 				if (enderecoOpt.isEmpty()) {
 					System.out.println("Endereço Inválido");
 					return;
 				}
 
-				Endereco endereco = enderecoOpt.get();
-				servicoend.criarEndereco(endereco);
+				Endereco endereco = enderecoOpt.get();		// Após tratar e validar, armazena o end. em uma variável
+				servicoend.criarEndereco(endereco);			// Inserindo o end. tratado e validado dentro de outra classe para que não seja necessário refazer o processo.
 
 				break;
 			case 2:
