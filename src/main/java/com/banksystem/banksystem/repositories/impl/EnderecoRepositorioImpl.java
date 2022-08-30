@@ -30,6 +30,7 @@ public class EnderecoRepositorioImpl implements EnderecoRepositorio {
 
         int id = getIdEndereco();
         endereco.setId(id);
+        
         return endereco;
     }
 

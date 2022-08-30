@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface ServicoCliente {
 
-    Optional<Cliente> construtorCliente (String cliente);
-
     Cliente criarCliente(Cliente cliente);
+
+    Optional<Cliente> construtorCliente (String cliente);
 }

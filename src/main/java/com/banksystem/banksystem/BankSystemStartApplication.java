@@ -2,6 +2,7 @@ package com.banksystem.banksystem;
 
 import com.banksystem.banksystem.domains.Cliente;
 import com.banksystem.banksystem.domains.Endereco;
+import com.banksystem.banksystem.repositories.impl.ClienteRepositorioImpl;
 import com.banksystem.banksystem.repositories.impl.EnderecoRepositorioImpl;
 import com.banksystem.banksystem.services.ServicoCliente;
 import com.banksystem.banksystem.services.ServicoEndereco;
@@ -17,7 +18,6 @@ public class BankSystemStartApplication {
 	public static void main(String[] args) {
 
 		int opcao = 0;
-// Abner Amos de Souza, 10/08/1993, 11973851774, abner.fsouza1@gmail.com, PF, CPF, 42104482810
 
 		while (opcao == 0) {
 			opcao = menuOpcoes();
@@ -33,7 +33,7 @@ public class BankSystemStartApplication {
 		switch (opcao) {
 			case 1:
 
-				ServicoCliente servicoCliente = new ImplCliente();
+				ServicoCliente servicoCliente = new ImplCliente(new ClienteRepositorioImpl());
 				ServicoEndereco servicoEnd = new ImplEndereco(new EnderecoRepositorioImpl());			// Chamando a classe onde será construido o endereço
 
 				System.out.println("###################################");
@@ -68,7 +68,7 @@ public class BankSystemStartApplication {
 				Endereco salvarEnd = servicoEnd.criarEndereco(endereco);			// Inserindo o end. tratado e validado dentro de outra classe para que não seja necessário refazer o processo.
 
 				Cliente cliente = clienteOpt.get();
-				cliente.setEnderecoId(endereco.getId());
+				cliente.setEnderecoId(salvarEnd.getId());
 				Cliente salvarCliente = servicoCliente.criarCliente(cliente);
 
 				break;
@@ -129,4 +129,4 @@ public class BankSystemStartApplication {
 			return 0;
 		}
 	}
-	}
+}

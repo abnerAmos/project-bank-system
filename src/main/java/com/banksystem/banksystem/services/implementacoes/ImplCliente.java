@@ -3,6 +3,7 @@ package com.banksystem.banksystem.services.implementacoes;
 import com.banksystem.banksystem.domains.Cliente;
 import com.banksystem.banksystem.enums.TipoDocumento;
 import com.banksystem.banksystem.enums.TipoPessoa;
+import com.banksystem.banksystem.repositories.ClienteRepositorio;
 import com.banksystem.banksystem.services.ServicoCliente;
 import com.banksystem.banksystem.utils.ValidandoData;
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +12,18 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public class ImplCliente implements ServicoCliente {
+
+    private final ClienteRepositorio clienteRepositorio;
+
+    public ImplCliente(ClienteRepositorio clienteRepositorio) {
+        this.clienteRepositorio = clienteRepositorio;
+    }
+
+    @Override
+    public Cliente criarCliente(Cliente cliente) {
+        Cliente clienteCriado = clienteRepositorio.criarCliente(cliente);
+        return cliente;
+    }
 
     @Override
     public Optional<Cliente> construtorCliente(String cliente) {
@@ -68,10 +81,5 @@ public class ImplCliente implements ServicoCliente {
                 .build();
 
         return Optional.of(clienteBuild);
-    }
-
-    @Override
-    public Cliente criarCliente(Cliente cliente) {
-        return null;
     }
 }

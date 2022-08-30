@@ -3,7 +3,6 @@ package com.banksystem.banksystem.services.implementacoes;
 import com.banksystem.banksystem.domains.Endereco;
 import com.banksystem.banksystem.repositories.EnderecoRepositorio;
 import com.banksystem.banksystem.services.ServicoEndereco;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
 
