@@ -32,7 +32,7 @@ public class ImplEndereco implements ServicoEndereco {
         String cidade;
         String estado;
         String cep;
-        String complemento;
+        String complemento = "";
 
         try {
             rua = token[0].trim();
@@ -44,18 +44,16 @@ public class ImplEndereco implements ServicoEndereco {
             try {
                 complemento = token[6];
             } catch (ArrayIndexOutOfBoundsException e) {
-                complemento = "";
+                complemento = null;
             }
 
             rua.matches("(?=^.{2,60}$)^[A-Z][a-z]+(?:[ ](?:das?|dos?|de|e|[A-Z][a-z]+))*$");
             numero.matches("\\d{1,5}[A-Z]?");
             bairro.matches("(?=^.{2,30}$)^[A-Z][a-z]+(?:[ ](?:das?|dos?|de|e|[A-Z][a-z]+))*$");
-            cidade.matches("(\\s?[A-Z][a-z]{2,10}([ ]?[do|de]?|[A-Z][a-z]{3,8})*)");
+            cidade.matches("([A-Z][a-z]{2,10}([ ]?[do|de]?|[A-Z][a-z]{3,8})*)");
             estado.matches("[A-Z]{2}");
             cep.matches("\\d{5}-?\\d{3}");
             complemento.matches("((\\s?[A-Z][a-z]{2,12}([ ]\\d{1,4}[A-Z]?|[A-Z])?)*)?");
-
-
 
         } catch (ArrayIndexOutOfBoundsException e) {
             return Optional.empty();

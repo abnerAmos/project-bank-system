@@ -1,8 +1,11 @@
 package com.banksystem.banksystem;
 
+import com.banksystem.banksystem.domains.Cliente;
 import com.banksystem.banksystem.domains.Endereco;
 import com.banksystem.banksystem.repositories.impl.EnderecoRepositorioImpl;
+import com.banksystem.banksystem.services.ServicoCliente;
 import com.banksystem.banksystem.services.ServicoEndereco;
+import com.banksystem.banksystem.services.implementacoes.ImplCliente;
 import com.banksystem.banksystem.services.implementacoes.ImplEndereco;
 
 import java.util.InputMismatchException;
@@ -14,6 +17,7 @@ public class BankSystemStartApplication {
 	public static void main(String[] args) {
 
 		int opcao = 0;
+// Abner Amos de Souza, 10/08/1993, 11973851774, abner.fsouza1@gmail.com, PF, CPF, 42104482810
 
 		while (opcao == 0) {
 			opcao = menuOpcoes();
@@ -28,22 +32,44 @@ public class BankSystemStartApplication {
 
 		switch (opcao) {
 			case 1:
-				ServicoEndereco servicoend = new ImplEndereco(new EnderecoRepositorioImpl());			// Chamando a classe onde será construido o endereço
+
+				ServicoCliente servicoCliente = new ImplCliente();
+				ServicoEndereco servicoEnd = new ImplEndereco(new EnderecoRepositorioImpl());			// Chamando a classe onde será construido o endereço
+
 				System.out.println("###################################");
 				System.out.println("***** CRIANDO CONTA BANCÁRIA: *****");
 				System.out.println("###################################\n");
-				System.out.println("Informe o seu Endereço Completo:");
+
+				System.out.println("Informe Dados Pessoais para Cadastro:");
+				System.out.println("EXEMPLO: Nome Completo, Data Nascimento: dd/MM/yyyy (com barras), Telefone: 11922224444, email, PF ou PJ, CPF ou CNPJ, Numero de Doc. (CPF ou CNPJ)");
+				String clienteInput = new Scanner(System.in).nextLine();	// Capturando dados do usuário
+				Optional<Cliente> clienteOpt = servicoCliente.construtorCliente(clienteInput);
+
+				while (clienteOpt.isEmpty()) {
+					System.out.println("***** DADOS INVÁLIDOS ******");
+					System.out.println("***** INSIRA NOVAMENTE *****");
+					clienteInput = new Scanner(System.in).nextLine();
+					clienteOpt = servicoCliente.construtorCliente(clienteInput);
+				}
+
+				System.out.println("\nInforme o seu Endereço Completo:");
 				System.out.println("EXEMPLO: Rua Fulano de Tal, 1234, Bairro, Cidade, SP, 02552012, Torre B Apto 01");
 				String enderecoInput = new Scanner(System.in).nextLine();	// Capturando o endereço do usuário
-				Optional<Endereco> enderecoOpt = servicoend.construtorEndereco(enderecoInput);		// Enviando os dados de end. p/ classe Impl., tratando e validando infos.
+				Optional<Endereco> enderecoOpt = servicoEnd.construtorEndereco(enderecoInput);		// Enviando os dados de end. p/ classe Impl., tratando e validando infos.
 
-				if (enderecoOpt.isEmpty()) {
-					System.out.println("Endereço Inválido");
-					return;
+				while (enderecoOpt.isEmpty()) {
+					System.out.println("\n***** ENDERECO INVÁLIDOS *****");
+					System.out.println("****** INSIRA NOVAMENTE ******");
+					enderecoInput = new Scanner(System.in).nextLine();
+					enderecoOpt = servicoEnd.construtorEndereco(enderecoInput);
 				}
 
 				Endereco endereco = enderecoOpt.get();		// Após tratar e validar, armazena o end. em uma variável
-				servicoend.criarEndereco(endereco);			// Inserindo o end. tratado e validado dentro de outra classe para que não seja necessário refazer o processo.
+				Endereco salvarEnd = servicoEnd.criarEndereco(endereco);			// Inserindo o end. tratado e validado dentro de outra classe para que não seja necessário refazer o processo.
+
+				Cliente cliente = clienteOpt.get();
+				cliente.setEnderecoId(endereco.getId());
+				Cliente salvarCliente = servicoCliente.criarCliente(cliente);
 
 				break;
 			case 2:
