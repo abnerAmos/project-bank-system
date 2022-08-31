@@ -6,10 +6,8 @@ import com.banksystem.banksystem.utils.ValidandoData;
 import lombok.SneakyThrows;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 
 import static com.banksystem.banksystem.config.DatabaseConfig.getConnection;
 
