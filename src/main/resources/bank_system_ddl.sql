@@ -24,7 +24,7 @@ phone			BIGINT	(11)			NOT NULL					,
 email			VARCHAR (50)			NOT NULL	UNIQUE			,
 person_tp		ENUM ('PF', 'PJ')		NOT NULL	DEFAULT 'PF'	,
 document_tp		ENUM ('CPF', 'CNPJ')	NOT NULL	DEFAULT	'CPF'	,
-document		VARCHAR	(20)			NOT NULL					,
+document		VARCHAR	(20)			NOT NULL	UNIQUE			,
 address_id		INT						NOT NULL					,
 PRIMARY KEY	(id)													,
 FOREIGN KEY (address_id) REFERENCES address (id)

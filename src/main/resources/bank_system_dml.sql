@@ -8,7 +8,7 @@ VALUES ('Abner Amós', '1993-08-10', 11973851774, 'abner.fsouza@hotmail.com', 42
 
 -- ACCOUNT
 INSERT INTO bank_account (account_number, client_id, balance, registration_dt, account_tp)
-VALUES (303, 4, 165.100, '2021-07-03 11:24:45', 'INVESTIMENTO' )
+VALUES (303, 4, 165.100, '2021-07-03 11:24:45', 'INVESTIMENTO')
 
 -- ACCESS
 INSERT INTO access (client_id, account_id, password_acess)

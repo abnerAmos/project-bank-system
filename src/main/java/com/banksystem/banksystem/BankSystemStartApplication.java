@@ -52,17 +52,21 @@ public class BankSystemStartApplication {
 				Optional<Cliente> clienteOpt = servicoCliente.construtorCliente(clienteInput);
 
 				while (clienteOpt.isEmpty()) {
-					System.out.println("***** DADOS INVÁLIDOS ******");
-					System.out.println("***** INSIRA NOVAMENTE *****");
+					System.out.println("**********************************************");
+					System.out.println("##### DADOS INVÁLIDOS, INSIRA NOVAMENTE ######");
+					System.out.println("**********************************************");
 					clienteInput = new Scanner(System.in).nextLine();
 					clienteOpt = servicoCliente.construtorCliente(clienteInput);
 				}
 
 				Cliente cliente = clienteOpt.get();
-				boolean contaExistente = servicoConta.contaJaExistente(cliente);
+				Optional<Conta> contaOpt = servicoConta.contaJaExistente(cliente);
 
-				if (contaExistente) {
-					System.out.println("CONTA JÁ EXISTENTE");
+				if (contaOpt.isPresent()) {
+					Conta conta = contaOpt.get();
+					System.out.println("*******************************");
+					System.out.println("##### CONTA JÁ EXISTENTE ######");
+					System.out.println("*******************************");
 					return;
 				}
 
@@ -72,8 +76,9 @@ public class BankSystemStartApplication {
 				Optional<Endereco> enderecoOpt = servicoEnd.construtorEndereco(enderecoInput);		// Enviando os dados de end. p/ classe Impl., tratando e validando infos.
 
 				while (enderecoOpt.isEmpty()) {
-					System.out.println("\n***** ENDERECO INVÁLIDOS *****");
-					System.out.println("****** INSIRA NOVAMENTE ******");
+					System.out.println("************************************************");
+					System.out.println("##### ENDEREÇO INVALIDO, INSIRA NOVAMENTE ######");
+					System.out.println("************************************************");
 					enderecoInput = new Scanner(System.in).nextLine();
 					enderecoOpt = servicoEnd.construtorEndereco(enderecoInput);
 				}

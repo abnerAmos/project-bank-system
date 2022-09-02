@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Conta implements Serializable {
 
     private Integer id;

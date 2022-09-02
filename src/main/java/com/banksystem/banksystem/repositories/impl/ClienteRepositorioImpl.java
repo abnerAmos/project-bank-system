@@ -21,7 +21,7 @@ public class ClienteRepositorioImpl implements ClienteRepositorio {
         PreparedStatement stmt = connection.prepareStatement(INSERT_CLIENT_SQL);
 
         stmt.setString(1, cliente.getNome());
-        stmt.setDate(2, ValidandoData.dataLocal(cliente.getNascimento()));
+        stmt.setDate(2, ValidandoData.localDate(cliente.getNascimento()));
         stmt.setString(3, cliente.getTelefone());
         stmt.setString(4, cliente.getEmail());
         stmt.setString(5, String.valueOf(cliente.getTipoPessoa()));
