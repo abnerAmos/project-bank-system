@@ -4,6 +4,7 @@ import com.banksystem.banksystem.domains.Cliente;
 import com.banksystem.banksystem.enums.TipoDocumento;
 import com.banksystem.banksystem.enums.TipoPessoa;
 import com.banksystem.banksystem.repositories.ClienteRepositorio;
+import com.banksystem.banksystem.repositories.impl.ClienteRepositorioImpl;
 import com.banksystem.banksystem.services.ServicoCliente;
 import com.banksystem.banksystem.utils.ValidandoData;
 import org.apache.commons.lang3.StringUtils;
@@ -15,8 +16,8 @@ public class ImplCliente implements ServicoCliente {
 
     private final ClienteRepositorio clienteRepositorio;
 
-    public ImplCliente(ClienteRepositorio clienteRepositorio) {
-        this.clienteRepositorio = clienteRepositorio;
+    public ImplCliente() {
+        this.clienteRepositorio = new ClienteRepositorioImpl();
     }
 
     @Override

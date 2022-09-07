@@ -2,6 +2,7 @@ package com.banksystem.banksystem.services.implementacoes;
 
 import com.banksystem.banksystem.domains.Endereco;
 import com.banksystem.banksystem.repositories.EnderecoRepositorio;
+import com.banksystem.banksystem.repositories.impl.EnderecoRepositorioImpl;
 import com.banksystem.banksystem.services.ServicoEndereco;
 
 import java.util.Optional;
@@ -10,8 +11,8 @@ public class ImplEndereco implements ServicoEndereco {
 
     private final EnderecoRepositorio enderecoRepositorio;
 
-    public ImplEndereco(EnderecoRepositorio enderecoRepositorio) {
-        this.enderecoRepositorio = enderecoRepositorio;
+    public ImplEndereco() {
+        this.enderecoRepositorio = new EnderecoRepositorioImpl();
     }
 
     @Override

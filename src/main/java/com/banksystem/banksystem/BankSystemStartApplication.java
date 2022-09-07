@@ -4,12 +4,11 @@ import com.banksystem.banksystem.domains.Cliente;
 import com.banksystem.banksystem.domains.Conta;
 import com.banksystem.banksystem.domains.Endereco;
 import com.banksystem.banksystem.enums.TipoConta;
-import com.banksystem.banksystem.repositories.impl.ClienteRepositorioImpl;
-import com.banksystem.banksystem.repositories.impl.ContaRepositorioImpl;
-import com.banksystem.banksystem.repositories.impl.EnderecoRepositorioImpl;
+import com.banksystem.banksystem.services.ServicoAcesso;
 import com.banksystem.banksystem.services.ServicoCliente;
 import com.banksystem.banksystem.services.ServicoConta;
 import com.banksystem.banksystem.services.ServicoEndereco;
+import com.banksystem.banksystem.services.implementacoes.ImplAcesso;
 import com.banksystem.banksystem.services.implementacoes.ImplCliente;
 import com.banksystem.banksystem.services.implementacoes.ImplConta;
 import com.banksystem.banksystem.services.implementacoes.ImplEndereco;
@@ -38,9 +37,10 @@ public class BankSystemStartApplication {
 		switch (opcao) {
 			case 1:
 
-				ServicoConta servicoConta = new ImplConta(new ContaRepositorioImpl());
-				ServicoCliente servicoCliente = new ImplCliente(new ClienteRepositorioImpl());
-				ServicoEndereco servicoEnd = new ImplEndereco(new EnderecoRepositorioImpl());			// Chamando a classe onde será construido o endereço
+				ServicoAcesso servicoAcesso = new ImplAcesso();
+				ServicoConta servicoConta = new ImplConta();
+				ServicoCliente servicoCliente = new ImplCliente();
+				ServicoEndereco servicoEnd = new ImplEndereco();			// Chamando a classe onde será construido o endereço
 
 				System.out.println("###################################");
 				System.out.println("***** CRIANDO CONTA BANCÁRIA: *****");
@@ -64,7 +64,7 @@ public class BankSystemStartApplication {
 
 				if (contaOpt.isPresent()) {
 					Conta conta = contaOpt.get();
-					System.out.println("*******************************");
+					System.out.println("\n*******************************");
 					System.out.println("##### CONTA JÁ EXISTENTE ######");
 					System.out.println("*******************************");
 					return;
@@ -76,9 +76,9 @@ public class BankSystemStartApplication {
 				Optional<Endereco> enderecoOpt = servicoEnd.construtorEndereco(enderecoInput);		// Enviando os dados de end. p/ classe Impl., tratando e validando infos.
 
 				while (enderecoOpt.isEmpty()) {
-					System.out.println("************************************************");
+					System.out.println("\n************************************************");
 					System.out.println("##### ENDEREÇO INVALIDO, INSIRA NOVAMENTE ######");
-					System.out.println("************************************************");
+					System.out.println("************************************************\n");
 					enderecoInput = new Scanner(System.in).nextLine();
 					enderecoOpt = servicoEnd.construtorEndereco(enderecoInput);
 				}
@@ -90,6 +90,17 @@ public class BankSystemStartApplication {
 				Cliente salvarCliente = servicoCliente.criarCliente(cliente);
 				Conta conta = new Conta(salvarCliente.getId(), TipoConta.CORRENTE);
 				Conta salvarConta = servicoConta.criarConta(conta);
+
+				System.out.println("\nInforme a senha de Acesso:");
+				Integer senhaInput = new Scanner(System.in).nextInt();
+
+				servicoAcesso.criarAcesso(senhaInput, salvarConta.getClienteId(), salvarConta.getId());
+
+				System.out.println("\n************************************************");
+				System.out.println("##### CONTA CRIADA COM SUCESSO ######");
+				System.out.printf("Conta: %s", salvarConta.getNumeroConta());
+				System.out.printf("Agencia: %s", salvarConta.getAgencia());
+				System.out.println("************************************************\n");
 
 				break;
 			case 2:
