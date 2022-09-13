@@ -12,5 +12,7 @@ import java.io.Serializable;
 public class Acesso implements Serializable {
 
     private Integer senha;
+    private Integer clienteId;
+    private Integer contaId;
 
 }

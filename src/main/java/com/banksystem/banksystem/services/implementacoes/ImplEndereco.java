@@ -4,6 +4,7 @@ import com.banksystem.banksystem.domains.Endereco;
 import com.banksystem.banksystem.repositories.EnderecoRepositorio;
 import com.banksystem.banksystem.repositories.impl.EnderecoRepositorioImpl;
 import com.banksystem.banksystem.services.ServicoEndereco;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
 
@@ -44,7 +45,6 @@ public class ImplEndereco implements ServicoEndereco {
             try {
                 complemento = token[6];
             } catch (ArrayIndexOutOfBoundsException e) {
-                complemento = null;
             }
 
             rua.matches("(?=^.{2,60}$)^[A-Z][a-z]+(?:[ ](?:das?|dos?|de|e|[A-Z][a-z]+))*$");

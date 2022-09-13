@@ -30,24 +30,10 @@ public class ClienteRepositorioImpl implements ClienteRepositorio {
         stmt.setInt(8, cliente.getEnderecoId());
         stmt.executeUpdate();
 
-        cliente.setId(getIdCliente());
+        int id = getId("client");
+        cliente.setId(id);
 
         return cliente;
-    }
-
-    @SneakyThrows
-    public int getIdCliente() {
-
-        int clientId = 0;
-        Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(NEXT_CLIENT_ID_SQL);
-        ResultSet resultSet = statement.executeQuery();
-
-        while (resultSet.next()) {
-            int nextId = resultSet.getInt("AUTO_INCREMENT");
-            clientId = nextId - 1;
-        }
-        return clientId;
     }
 }
 

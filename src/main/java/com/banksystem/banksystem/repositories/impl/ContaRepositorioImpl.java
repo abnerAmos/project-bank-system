@@ -30,7 +30,8 @@ public class ContaRepositorioImpl implements ContaRepositorio {
         stmt.setString(4, String.valueOf(conta.getTipoConta()));
         stmt.executeUpdate();
 
-        conta.setId(getIdConta());
+        int id = getId("bank_account");
+        conta.setId(id);
         return conta;
     }
 
@@ -76,20 +77,5 @@ public class ContaRepositorioImpl implements ContaRepositorio {
         }
 
         return null;
-    }
-
-    @SneakyThrows
-    public int getIdConta() {
-
-        int clientId = 0;
-        Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(NEXT_ACCOUNT_ID_SQL);
-        ResultSet resultSet = statement.executeQuery();
-
-        while (resultSet.next()) {
-            int nextId = resultSet.getInt("AUTO_INCREMENT");
-            clientId = nextId - 1;
-        }
-        return clientId;
     }
 }

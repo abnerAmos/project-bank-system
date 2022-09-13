@@ -28,24 +28,9 @@ public class EnderecoRepositorioImpl implements EnderecoRepositorio {
         stmt.setString(7, endereco.getComplemento());
         stmt.executeUpdate();
 
-        int id = getIdEndereco();
+        int id = getId("address");
         endereco.setId(id);
         
         return endereco;
-    }
-
-    @SneakyThrows
-    public int getIdEndereco() {
-
-        int addressId = 0;
-        Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(NEXT_ADDRESS_ID_SQL);
-        ResultSet resultSet = statement.executeQuery();
-
-        while (resultSet.next()) {
-            int nextId = resultSet.getInt("AUTO_INCREMENT");
-            addressId = nextId - 1;
-        }
-        return addressId;
     }
 }

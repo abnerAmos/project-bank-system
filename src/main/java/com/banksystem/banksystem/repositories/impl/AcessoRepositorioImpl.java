@@ -1,6 +1,5 @@
 package com.banksystem.banksystem.repositories.impl;
 
-import com.banksystem.banksystem.domains.Acesso;
 import com.banksystem.banksystem.repositories.AcessoRepositorio;
 import lombok.SneakyThrows;
 
