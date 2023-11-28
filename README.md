@@ -1,4 +1,4 @@
-# Meu primeiro projeto em Java
+# Projeto em Java
 
 ### **Construção de um Sistema Bancário Simples** 
 
